@@ -7,6 +7,10 @@ const cart = useCartStore();
 function money(n: number) {
   return `$${n.toFixed(2)}`;
 }
+
+function handleCheckout() {
+  window.alert('Demo checkout ✅');
+}
 </script>
 
 <template>
@@ -80,7 +84,7 @@ function money(n: number) {
           </div>
         </div>
 
-        <button class="mt-4 w-full rounded-md bg-amber-400 px-4 py-2 text-sm font-bold text-slate-900 hover:bg-amber-300" @click="alert('Demo checkout ✅')">
+        <button class="mt-4 w-full rounded-md bg-amber-400 px-4 py-2 text-sm font-bold text-slate-900 hover:bg-amber-300" @click="handleCheckout">
           Checkout (Demo)
         </button>
 
