@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { useCartStore } from "../stores/cart";
-import { useDarkMode } from "../composables/useDarkMode";
 
 const router = useRouter();
 const cart = useCartStore();
-const { isDark } = useDarkMode();
 
 function goHome() {
   router.push("/");
@@ -19,7 +17,7 @@ function goLogin() {
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 bg-slate-900 text-white dark:bg-gray-900">
+  <header class="sticky top-0 z-50 bg-slate-900 text-white">
     <div class="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
       <button class="flex items-center gap-2 rounded-md px-2 py-1 hover:bg-white/10" @click="goHome">
         <span class="text-lg font-extrabold tracking-tight">E-Market</span>
@@ -28,7 +26,7 @@ function goLogin() {
 
       <div class="hidden sm:block text-sm text-white/70">Online Store • DummyJSON</div>
 
-      <div class="ml-auto flex gap-2 items-center">
+      <div class="ml-auto flex gap-2">
         <button
           class="relative rounded-md bg-white/10 px-3 py-2 text-sm hover:bg-white/20"
           @click="goCart"
@@ -42,19 +40,12 @@ function goLogin() {
           </span>
         </button>
 
+        <!-- ✅ Login button -->
         <button
           class="rounded-md bg-blue-500 px-3 py-2 text-sm hover:bg-blue-600"
           @click="goLogin"
         >
           Login
-        </button>
-
-        <!-- ✅ Dark mode toggle -->
-        <button
-          class="rounded-md bg-gray-700 px-3 py-2 text-sm hover:bg-gray-600"
-          @click="isDark = !isDark"
-        >
-          {{ isDark ? "☀️ Light" : "🌙 Dark" }}
         </button>
       </div>
     </div>

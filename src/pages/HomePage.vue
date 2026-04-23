@@ -6,6 +6,9 @@ import CategoryFilter from "../components/CategoryFilter.vue";
 import ProductGrid from "../components/ProductGrid.vue";
 import type { Product } from "../types/product";
 import { getCategories, getProducts, getProductsByCategory, searchProducts } from "../api/dummyjson";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const products = ref<Product[]>([]);
 const categories = ref<string[]>([]);
@@ -77,6 +80,10 @@ function onCategoryChange(v: string) {
   applyFilters();
 }
 
+function goLogin() {
+  router.push("/login");
+}
+
 onMounted(async () => {
   await loadCategories();
   await loadDefaultProducts();
@@ -87,6 +94,19 @@ onMounted(async () => {
   <NavBar />
 
   <main class="mx-auto max-w-6xl px-4 py-6">
+    <!-- ✅ Top bar with login button -->
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold">Welcome to E-Market</h1>
+      <button
+        @click="goLogin"
+        class="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+      >
+        Login
+      </button>
+    </div>
+
+    <p class="mb-6 text-gray-700">Your one-stop online store.</p>
+
     <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <SearchBar v-model="searchText" @submit="onSearchSubmit" @clear="onSearchClear" />
