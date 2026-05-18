@@ -22,6 +22,35 @@ const error = ref<string>("")
 const searchText = ref<string>("")
 const selectedCategory = ref<string>("")
 
+// Banner carousel state
+const currentBannerIndex = ref<number>(0)
+const banners = ref([
+  {
+    id: 1,
+    title: "🌸 Mother's Day Specials 🌸",
+    description: "Discover deals on fashion, electronics, and gifts for loved ones.",
+    bgColor: "from-pink-200 via-yellow-100 to-blue-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-600"
+  },
+  {
+    id: 2,
+    title: "🎁 Father's Day Deals 🎁",
+    description: "Save on gifts for Dad - Electronics, Fashion, Home & More!",
+    bgColor: "from-orange-300 via-red-200 to-yellow-100 dark:from-gray-700 dark:via-gray-600 dark:to-gray-800"
+  },
+  {
+    id: 3,
+    title: "⚡ Summer Sale ⚡",
+    description: "Get up to 50% off on selected items. Don't miss out!",
+    bgColor: "from-blue-300 via-cyan-200 to-green-200 dark:from-gray-600 dark:via-gray-700 dark:to-gray-800"
+  },
+  {
+    id: 4,
+    title: "🛍️ New Arrivals 🛍️",
+    description: "Check out the latest products added to our store.",
+    bgColor: "from-purple-300 via-pink-200 to-red-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-800"
+  }
+])
+
 async function loadCategories() {
   try {
     categories.value = await getCategories()
@@ -68,33 +97,75 @@ function onSearchSubmit() {
   selectedCategory.value = ""
   applyFilters()
 }
+
 function onSearchClear() {
   searchText.value = ""
   selectedCategory.value = ""
   applyFilters()
 }
+
 function onCategoryChange(value: string) {
   selectedCategory.value = value
   searchText.value = ""
   applyFilters()
 }
+
 function goLogin() {
   router.push("/login")
+}
+
+function goToBanner(index: number) {
+  currentBannerIndex.value = index
 }
 
 onMounted(async () => {
   await loadCategories()
   await loadDefaultProducts()
+
+  // Banner carousel interval - auto slide every 3 seconds
+  setInterval(() => {
+    currentBannerIndex.value = (currentBannerIndex.value + 1) % banners.value.length
+  }, 3000)
 })
 </script>
 
 <template>
   <main class="mx-auto max-w-6xl px-4 py-8">
-    <!-- Banner -->
-    <section class="relative bg-gradient-to-r from-pink-200 via-yellow-100 to-blue-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-600 p-8 text-center mb-8">
-      <h2 class="text-3xl font-bold mb-2">🌸 Mother’s Day Specials 🌸</h2>
-      <p class="mb-4 text-lg">Discover deals on fashion, electronics, and gifts for loved ones.</p>
-      <button class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Shop Now</button>
+    <!-- Banner Carousel -->
+    <section class="relative mb-8 overflow-hidden rounded-lg shadow-lg">
+      <!-- Banners Container -->
+      <div class="relative h-48 md:h-64">
+        <transition name="fade" mode="out-in">
+          <div
+            :key="currentBannerIndex"
+            :class="`absolute inset-0 bg-gradient-to-r ${banners[currentBannerIndex].bgColor} p-8 text-center flex flex-col items-center justify-center transition-all duration-500`"
+          >
+            <h2 class="text-2xl md:text-4xl font-bold mb-2 text-gray-800 dark:text-white">
+              {{ banners[currentBannerIndex].title }}
+            </h2>
+            <p class="mb-4 text-base md:text-lg text-gray-700 dark:text-gray-200">
+              {{ banners[currentBannerIndex].description }}
+            </p>
+            <button class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+              Shop Now
+            </button>
+          </div>
+        </transition>
+      </div>
+
+      <!-- Banner Navigation Dots -->
+      <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+        <button
+          v-for="(banner, index) in banners"
+          :key="banner.id"
+          @click="goToBanner(index)"
+          :class="`w-3 h-3 rounded-full transition-all ${
+            index === currentBannerIndex
+              ? 'bg-blue-600 w-8'
+              : 'bg-gray-400 hover:bg-gray-500'
+          }`"
+        ></button>
+      </div>
     </section>
 
     <!-- Headline -->
@@ -128,3 +199,15 @@ onMounted(async () => {
     </div>
   </main>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
