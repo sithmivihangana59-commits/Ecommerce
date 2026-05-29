@@ -29,25 +29,25 @@ const banners = ref([
     id: 1,
     title: "🌸 Mother's Day Specials 🌸",
     description: "Discover deals on fashion, electronics, and gifts for loved ones.",
-    bgColor: "from-pink-200 via-yellow-100 to-blue-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-600"
+    image: "/assets/banner1.jpg"
   },
   {
     id: 2,
     title: "🎁 Father's Day Deals 🎁",
     description: "Save on gifts for Dad - Electronics, Fashion, Home & More!",
-    bgColor: "from-orange-300 via-red-200 to-yellow-100 dark:from-gray-700 dark:via-gray-600 dark:to-gray-800"
+    image: "/assets/banner2.jpg"
   },
   {
     id: 3,
     title: "⚡ Summer Sale ⚡",
     description: "Get up to 50% off on selected items. Don't miss out!",
-    bgColor: "from-blue-300 via-cyan-200 to-green-200 dark:from-gray-600 dark:via-gray-700 dark:to-gray-800"
+    image: "/assets/banner3.jpg"
   },
   {
     id: 4,
     title: "🛍️ New Arrivals 🛍️",
     description: "Check out the latest products added to our store.",
-    bgColor: "from-purple-300 via-pink-200 to-red-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-800"
+    image: "/assets/banner4.jpg"
   }
 ])
 
@@ -132,58 +132,69 @@ onMounted(async () => {
 <template>
   <main class="mx-auto max-w-6xl px-4 py-8">
     <!-- Banner Carousel -->
-    <section class="relative mb-8 overflow-hidden rounded-lg shadow-lg">
-      <!-- Banners Container -->
-      <div class="relative h-48 md:h-64">
+    <section class="relative mb-10 overflow-hidden rounded-2xl shadow-xl">
+      <div class="relative h-64 md:h-80">
         <transition name="fade" mode="out-in">
           <div
             :key="currentBannerIndex"
-            :class="`absolute inset-0 bg-gradient-to-r ${banners[currentBannerIndex].bgColor} p-8 text-center flex flex-col items-center justify-center transition-all duration-500`"
+            class="absolute inset-0 flex flex-col items-center justify-center text-center transition-all duration-700"
+            :style="{
+              backgroundImage: `url(${banners[currentBannerIndex].image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }"
           >
-            <h2 class="text-2xl md:text-4xl font-bold mb-2 text-gray-800 dark:text-white">
-              {{ banners[currentBannerIndex].title }}
-            </h2>
-            <p class="mb-4 text-base md:text-lg text-gray-700 dark:text-gray-200">
-              {{ banners[currentBannerIndex].description }}
-            </p>
-            <button class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
-              Shop Now
-            </button>
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+
+            <div class="relative z-10 p-6">
+              <h2 class="text-3xl md:text-5xl font-extrabold mb-3 text-white drop-shadow-lg">
+                {{ banners[currentBannerIndex].title }}
+              </h2>
+              <p class="mb-6 text-base md:text-lg text-gray-100 max-w-xl mx-auto">
+                {{ banners[currentBannerIndex].description }}
+              </p>
+              <button class="px-8 py-3 bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 text-white rounded-lg shadow-lg hover:scale-105 transition-transform">
+                Shop Now
+              </button>
+            </div>
           </div>
         </transition>
       </div>
 
       <!-- Banner Navigation Dots -->
-      <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
         <button
           v-for="(banner, index) in banners"
           :key="banner.id"
           @click="goToBanner(index)"
           :class="`w-3 h-3 rounded-full transition-all ${
             index === currentBannerIndex
-              ? 'bg-blue-600 w-8'
-              : 'bg-gray-400 hover:bg-gray-500'
+              ? 'bg-pink-500 w-8'
+              : 'bg-gray-300 hover:bg-gray-400'
           }`"
         ></button>
       </div>
     </section>
 
     <!-- Headline -->
-    <div class="mb-6 flex items-center justify-between">
+    <div class="mb-8 flex items-center justify-between">
       <div>
-        <h1 class="text-4xl font-bold text-slate-900 dark:text-white">Welcome to E-Market</h1>
+        <h1 class="text-4xl font-extrabold text-slate-900 dark:text-white">Welcome to E-Market</h1>
         <p class="mt-2 text-gray-600 dark:text-gray-300">Your one-stop online store.</p>
       </div>
-      <button @click="goLogin" class="rounded-lg bg-blue-500 px-5 py-2 text-white hover:bg-blue-600">Login</button>
+      <button @click="goLogin" class="rounded-lg bg-blue-500 px-6 py-2 text-white hover:bg-blue-600 shadow-md transition">
+        Login
+      </button>
     </div>
 
     <!-- Search + Category -->
-    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <SearchBar v-model="searchText" @submit="onSearchSubmit" @clear="onSearchClear" />
         <CategoryFilter :categories="categories" :selected="selectedCategory" @update:selected="onCategoryChange" />
       </div>
-      <p class="mt-3 text-xs text-slate-500 dark:text-gray-400">
+      <p class="mt-3 text-sm text-slate-500 dark:text-gray-400 italic">
         Tip: Search by keyword (phone/laptop/perfume) or filter by category.
       </p>
     </div>
@@ -194,7 +205,7 @@ onMounted(async () => {
     </div>
 
     <!-- Products -->
-    <div class="mt-8">
+    <div class="mt-10">
       <ProductGrid :products="products" :loading="loading" />
     </div>
   </main>
@@ -203,9 +214,8 @@ onMounted(async () => {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.7s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
