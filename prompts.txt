@@ -1,0 +1,29 @@
+The aim 01: Set up the Vue project
+Actual prompt: I want to create my mini project using Vue 3, TypeScript, Vite and Tailwind CSS. Can you guide me on how to set up the project properly?
+
+The aim 02: Connect the DummyJSON API
+Actual prompt: I need to get product data from DummyJSON and display it in my Vue application. What is the simple way to do this using fetch?
+
+The aim 03: Create product cards
+Actual prompt: I have the product data from the API. How can I display each product in a separate card with the image, title, price and category?
+
+The aim 04: Add product search
+Actual prompt: I want to add a search bar so users can search for products by name. How can I implement this in Vue using the Composition API?
+
+The aim 05: Add product details
+Actual prompt: When a user clicks on a product card, I want to show the full product details. Can you help me implement this?
+
+The aim 06: Make the page responsive
+Actual prompt: My product page should work well on mobile, tablet and desktop. How can I make the layout responsive using Tailwind CSS?
+
+The aim 07: Use TypeScript properly
+Actual prompt: I don't want to use any in my project. How should I create TypeScript interfaces for the product data coming from DummyJSON?
+
+The aim 08: Create reusable components
+Actual prompt: My App.vue is getting too large. How can I divide the page into smaller reusable Vue components?
+
+The aim 09: Improve the design
+Actual prompt: The application is working but the UI looks very basic. Can you suggest some simple Tailwind CSS changes to make the product page look cleaner?
+
+The aim 10: Fix errors in the project
+Actual prompt: I have an error in my Vue and TypeScript code. Can you look at the code and explain what is causing the error and how I can fix it?
